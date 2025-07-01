@@ -16,3 +16,16 @@ export const flow =
  * @returns {T}
  */
 export const identity = (x) => x;
+
+/**
+ * @param {(seed: S) => [T, S] | null} fn
+ * @param {S} seed
+ * @returns {T[]}
+ * @template T, S
+ */
+export function unfold(fn, seed) {
+  const val = fn(seed);
+  if (!val) return [];
+  const [head, nextSeed] = val;
+  return [head, ...unfold(fn, nextSeed)];
+}
