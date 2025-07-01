@@ -1,6 +1,6 @@
 # Doc
 
-# Step 1
+## Step 1
 
 Since the README mentions that the code needs refactoring, the first step is to add tests. These tests will ensure that we don’t break anything during the process.
 
@@ -8,7 +8,7 @@ I wrote a test for each business rule and also added a test that compares the re
 
 At this point, there is some duplication in the code, but I'll address it in the next commits.
 
-# Step 2
+## Step 2
 
 Another way to test the code is by adding types. My first idea was to convert the code to TypeScript. There is a scenario where it is acceptable, if rest of the code is written in TypeScript, and `pharmacy.js` is still in js because we didn't take the time to convert it yet. This scenario usually happen during a big rewrite (JavaScript to TypeScript migration.)
 
@@ -24,7 +24,7 @@ This looks like a decision we should make with the team.
 
 So, there's a middle-ground solution using [@ts-check](https://www.typescriptlang.org/docs/handbook/intro-to-js-ts.html), it allows us to check types without breaking any code that calls our code."
 
-# Step 3
+## Step 3
 
 We are now pretty confident about refactoring the code. So let's identify the potential issue we want to address :
 
@@ -46,7 +46,17 @@ We are now pretty confident about refactoring the code. So let's identify the po
 
 I'll use the "imperative shell functional core" principle and try to isolate side effects.
 
-# Step 4
+## Step 4
 
 We now want to implement the new drug, Dafalgan.
 We'll start by writing the tests first (TDD), then proceed with the implementation.
+
+## Final notes
+
+- I chose **not** to migrate the codebase to TypeScript to avoid breaking the public API and any dependent services. Instead, I added TypeScript JSDoc comments (`@ts-check`) to enable type validation without altering file names or build steps. Note that the CI still check the validity of the types.
+- I didn't put too much efforts in reorganizing the folder structure, as it's often subjective. The modular design makes it easy to refactor or move files later.
+- There is a dedicated pull request for each step described in this document.
+- Each commit follows a chronological narrative, reflecting the reasoning and decisions made along the way.
+- I spent approximately **1 h 30 min** on this assignment. (Note: commit timestamps may not accurately reflect this, as I worked on other tasks concurrently.)
+
+Thanks in advance for taking the time to review this code. I'm looking forward to your feedback!
