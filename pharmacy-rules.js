@@ -70,20 +70,6 @@ export function dayPassed(drug) {
   return new Drug(drug.name, drug.expiresIn - 1, drug.benefit);
 }
 
-/**
- * Decrease the benefit by 2 if the expiresIn is 0 or less.
- *
- * @param {Drug} drug
- * @returns {Drug}
- */
-export function degradeTwiceAsFast(drug) {
-  return new Drug(
-    drug.name,
-    drug.expiresIn,
-    drug.expiresIn <= 0 ? drug.benefit - 4 : drug.benefit - 2,
-  );
-}
-
 // Drugs that have no special behavior
 const updateOtherDrug = flow(degradeInBenefit, clampBenefit, dayPassed);
 
@@ -100,6 +86,14 @@ const updateFervex = flow(updateBenefitForFervex, clampBenefit, dayPassed);
 // Magic Pill special behavior
 const updateMagicPill = flow(identity);
 
+// Dafalgan special behavior
+const updateDafalgan = flow(
+  degradeInBenefit,
+  degradeInBenefit,
+  clampBenefit,
+  dayPassed,
+);
+
 /**
  * Update the drug by its type.
  *
@@ -114,6 +108,8 @@ export function updateDrug(drug) {
       return updateFervex(drug);
     case "Magic Pill":
       return updateMagicPill(drug);
+    case "Dafalgan":
+      return updateDafalgan(drug);
     default:
       return updateOtherDrug(drug);
   }
