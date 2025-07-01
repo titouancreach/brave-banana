@@ -6,6 +6,13 @@ import { updateDrug } from "./pharmacy-rules";
  * @typedef {('Herbal Tea' | 'Fervex' | 'Magic Pill' | string)} DrugName
  */
 
+/**
+ * @typedef {Object} DrugSnapshot
+ * @property {DrugName} name
+ * @property {number} expiresIn
+ * @property {number} benefit
+ */
+
 export class Drug {
   /**
    * @param {DrugName} name
@@ -16,6 +23,17 @@ export class Drug {
     this.name = name;
     this.expiresIn = expiresIn;
     this.benefit = benefit;
+  }
+
+  /**
+   * @returns {DrugSnapshot}
+   */
+  toJSON() {
+    return {
+      name: this.name,
+      expiresIn: this.expiresIn,
+      benefit: this.benefit,
+    };
   }
 }
 

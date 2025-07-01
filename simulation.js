@@ -11,9 +11,13 @@ export function getInitialPharmacyState() {
 }
 
 /**
+ * @typedef {import("./pharmacy").DrugSnapshot} DrugSnapshot
+ */
+
+/**
  * @param {number} forDays
  * @param {Pharmacy} pharmacy
- * @returns {Drug[][]}
+ * @returns {DrugSnapshot[][]}
  */
 export function runSimulation(pharmacy, forDays = 30) {
   /**
@@ -24,17 +28,17 @@ export function runSimulation(pharmacy, forDays = 30) {
 
   /**
    * @param {[Pharmacy, number]} input
-   * @returns {[Drug[], [Pharmacy, number]] | null}
+   * @returns {[DrugSnapshot[], [Pharmacy, number]] | null}
    */
   const step = ([pharmacy, day]) => {
     if (day >= forDays) return null;
 
-    const nextPharmacy = new Pharmacy(pharmacy.updateBenefitValue()); // unforunately, this is not pure, but we can act as if it is, it will be easier refactor later
+    const nextDrugs = pharmacy.updateBenefitValue();
+    const snapshot = nextDrugs.map((d) => d.toJSON());
 
-    return [
-      pharmacy.drugs.map((d) => JSON.parse(JSON.stringify(d))),
-      [nextPharmacy, day + 1],
-    ];
+    const nextPharmacy = new Pharmacy(nextDrugs);
+
+    return [snapshot, [nextPharmacy, day + 1]];
   };
 
   const log = unfold(step, seed);
