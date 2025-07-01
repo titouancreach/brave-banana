@@ -23,3 +23,25 @@ Additionally, the test instructions specify that we must stay compatible with th
 This looks like a decision we should make with the team.
 
 So, there's a middle-ground solution using [@ts-check](https://www.typescriptlang.org/docs/handbook/intro-to-js-ts.html), it allows us to check types without breaking any code that calls our code.”
+
+# Step 3
+
+We are now pretty confident about refactoring the code. So let's identify the potential issue we want to address :
+
+- **The business rules for updating drugs are all mixed together**, making it hard to test each rule in isolation. Nested ternaries also make the code harder to read and maintain.
+
+  - We can break each rule into small functions and compose them to build more complex logic.
+
+- **There are unnecessary side effects.**
+
+  - We can refactor this into a pure (or mostly pure) function, which will make the behavior more predictable and easier to test.
+
+- **There is duplication**, some of which I introduced in step one.
+
+  - Refactoring how the simulation works will help eliminate this duplication.
+
+- **Serialization is handled outside the domain model.**
+  - We can move the serialization logic into the `Drug` class by implementing a standard `toJSON()` method.
+    This keeps all related logic in one place and prevents exposing uncontrolled or unnecessary properties.
+
+I'll use the "imperative shell functional core" principle and try to isolate side effects.
