@@ -5,7 +5,6 @@ import {
   updateBenefitForFervex,
   clampBenefit,
   dayPassed,
-  degradeTwiceAsFast,
   updateDrug,
 } from "./pharmacy-rules";
 
@@ -74,17 +73,6 @@ describe("pharmacy-rules", () => {
     it("should decrease expiresIn by 1", () => {
       const drug = new Drug("test", 5, 10);
       expect(dayPassed(drug)).toEqual(new Drug("test", 4, 10));
-    });
-  });
-
-  describe("degradeTwiceAsFast", () => {
-    it("should decrease benefit by 2 if not expired", () => {
-      const drug = new Drug("test", 5, 10);
-      expect(degradeTwiceAsFast(drug)).toEqual(new Drug("test", 5, 8));
-    });
-    it("should decrease benefit by 4 if expired", () => {
-      const drug = new Drug("test", 0, 10);
-      expect(degradeTwiceAsFast(drug)).toEqual(new Drug("test", 0, 6));
     });
   });
 

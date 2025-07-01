@@ -1,7 +1,7 @@
 import { updateDrug } from "./pharmacy-rules";
 
 /**
- * @typedef {('Herbal Tea' | 'Fervex' | 'Magic Pill' | string)} DrugName
+ * @typedef {('Herbal Tea' | 'Fervex' | 'Magic Pill' | 'Dafalgan' | string)} DrugName
  */
 
 /**

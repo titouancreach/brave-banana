@@ -22,7 +22,7 @@ Additionally, the test instructions specify that we must stay compatible with th
 
 This looks like a decision we should make with the team.
 
-So, there's a middle-ground solution using [@ts-check](https://www.typescriptlang.org/docs/handbook/intro-to-js-ts.html), it allows us to check types without breaking any code that calls our code.”
+So, there's a middle-ground solution using [@ts-check](https://www.typescriptlang.org/docs/handbook/intro-to-js-ts.html), it allows us to check types without breaking any code that calls our code."
 
 # Step 3
 
@@ -45,3 +45,8 @@ We are now pretty confident about refactoring the code. So let's identify the po
     This keeps all related logic in one place and prevents exposing uncontrolled or unnecessary properties.
 
 I'll use the "imperative shell functional core" principle and try to isolate side effects.
+
+# Step 4
+
+We now want to implement the new drug, Dafalgan.
+We'll start by writing the tests first (TDD), then proceed with the implementation.
