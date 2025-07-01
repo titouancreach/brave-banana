@@ -1,5 +1,3 @@
-// @ts-check
-
 import fs from "fs";
 import { getInitialPharmacyState, runSimulation } from "./simulation";
 

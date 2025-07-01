@@ -1,5 +1,3 @@
-// @ts-check
-
 import { updateDrug } from "./pharmacy-rules";
 
 /**
