@@ -57,6 +57,6 @@ We'll start by writing the tests first (TDD), then proceed with the implementati
 - I didn't put too much effort in reorganizing the folder structure, as it's often subjective. The modular design makes it easy to refactor or move files later.
 - There is a dedicated pull request for each step described in this document.
 - Each commit follows a chronological narrative, reflecting the reasoning and decisions made along the way.
-- I spent approximately **1 h 30 min** on this assignment. (Note: commit timestamps may not accurately reflect this, as I worked on other tasks concurrently.)
+- I spent approximately **2h** on this assignment. (Note: commit timestamps may not accurately reflect this, as I worked on other tasks concurrently.)
 
 Thanks in advance for taking the time to review this code. I'm looking forward to your feedback!
