@@ -1,3 +1,5 @@
+// @ts-check
+
 import { Drug, Pharmacy } from "./pharmacy";
 
 import fs from "fs";
@@ -8,8 +10,10 @@ const drugs = [
   new Drug("Fervex", 12, 35),
   new Drug("Magic Pill", 15, 40),
 ];
+
 const pharmacy = new Pharmacy(drugs);
 
+/** @type {{name: string, expiresIn: number, benefit: number}[]} */
 const log = [];
 
 for (let elapsedDays = 0; elapsedDays < 30; elapsedDays++) {
