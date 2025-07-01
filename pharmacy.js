@@ -1,6 +1,12 @@
+// @ts-check
+
+/**
+ * @typedef {('Herbal Tea' | 'Fervex' | 'Magic Pill' | string)} DrugName
+ */
+
 export class Drug {
   /**
-   * @param {string} name
+   * @param {DrugName} name
    * @param {number} expiresIn
    * @param {number} benefit
    */
