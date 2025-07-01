@@ -9,8 +9,7 @@
     "preinstall": "npx only-allow pnpm",
     "lint": "eslint .",
     "type-check": "tsc --noEmit",
-    "unit-test": "jest",
-    "test": "pnpm type-check && pnpm unit-test",
+    "test": "jest",
     "start": "babel-node index.js"
   },
   "devDependencies": {
