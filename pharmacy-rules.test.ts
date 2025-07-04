@@ -8,6 +8,8 @@ import {
   updateDrug,
 } from "./pharmacy-rules";
 
+import { describe, it, expect } from "vitest";
+
 describe("pharmacy-rules", () => {
   describe("degradeInBenefit", () => {
     it("should decrease benefit by 1 if not expired", () => {

@@ -1,5 +1,3 @@
-import globals from "globals";
-import babelParser from "@babel/eslint-parser";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import js from "@eslint/js";
@@ -17,16 +15,6 @@ const compat = new FlatCompat({
 
 export default [
   ...compat.extends("eslint:recommended", "plugin:prettier/recommended"),
-  {
-    languageOptions: {
-      globals: {
-        ...globals.jest,
-        ...globals.node,
-      },
-
-      parser: babelParser,
-    },
-  },
   // TypeScript support
   {
     files: ["**/*.ts", "**/*.tsx"],
@@ -36,8 +24,6 @@ export default [
         project: true,
         sourceType: "module",
         ecmaVersion: "latest",
-        ...globals.jest,
-        ...globals.node,
       },
     },
     plugins: {

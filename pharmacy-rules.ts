@@ -1,5 +1,5 @@
 import { Drug } from "./pharmacy";
-import { flow, identity } from "./helpers";
+import { flow, identity } from "effect";
 
 export function degradeInBenefit(drug: Drug) {
   return new Drug(

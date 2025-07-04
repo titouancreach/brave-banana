@@ -1,4 +1,5 @@
 import { Drug, Pharmacy } from "./pharmacy";
+import { describe, it, expect } from "vitest";
 
 describe("Pharmacy", () => {
   it("should decrease the benefit and expiresIn for a normal drug", () => {

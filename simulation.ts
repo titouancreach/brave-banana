@@ -1,5 +1,5 @@
 import { Drug, Pharmacy, DrugSnapshot } from "./pharmacy";
-import { unfold } from "./helpers";
+import { Option, Array } from "effect";
 
 export function getInitialPharmacyState() {
   return new Pharmacy([
@@ -13,20 +13,20 @@ export function getInitialPharmacyState() {
 export function runSimulation(pharmacy: Pharmacy, forDays = 30) {
   const seed = [new Pharmacy(pharmacy.drugs), 0] as const;
 
-  const step = ([pharmacy, day]: readonly [Pharmacy, number]):
-    | [DrugSnapshot[], [Pharmacy, number]]
-    | null => {
-    if (day >= forDays) return null;
+  const step = ([pharmacy, day]: readonly [Pharmacy, number]): Option.Option<
+    [DrugSnapshot[], [Pharmacy, number]]
+  > => {
+    if (day >= forDays) return Option.none();
 
     const nextDrugs = pharmacy.updateBenefitValue();
     const snapshot = nextDrugs.map((d) => d.toJSON());
 
     const nextPharmacy = new Pharmacy(nextDrugs);
 
-    return [snapshot, [nextPharmacy, day + 1]];
+    return Option.some([snapshot, [nextPharmacy, day + 1]]);
   };
 
-  const log = unfold(step, seed);
+  const log = Array.unfold(seed, step);
 
   return log;
 }
