@@ -1,5 +1,6 @@
-import { Drug, Pharmacy, DrugSnapshot } from "./pharmacy";
+import { Drug, Pharmacy } from "./pharmacy.js";
 import { Option, Array } from "effect";
+import type { DrugSnapShot } from "./Drug.js";
 
 export function getInitialPharmacyState() {
   return new Pharmacy([
@@ -10,11 +11,13 @@ export function getInitialPharmacyState() {
   ]);
 }
 
-export function runSimulation(pharmacy: Pharmacy, forDays = 30) {
-  const seed = [new Pharmacy(pharmacy.drugs), 0] as const;
+type StepState = [Pharmacy, number];
 
-  const step = ([pharmacy, day]: readonly [Pharmacy, number]): Option.Option<
-    [DrugSnapshot[], [Pharmacy, number]]
+export function runSimulation(pharmacy: Pharmacy, forDays = 30) {
+  const seed: StepState = [new Pharmacy(pharmacy.drugs), 0];
+
+  const step = ([pharmacy, day]: StepState): Option.Option<
+    [DrugSnapShot[], StepState]
   > => {
     if (day >= forDays) return Option.none();
 
@@ -23,7 +26,7 @@ export function runSimulation(pharmacy: Pharmacy, forDays = 30) {
 
     const nextPharmacy = new Pharmacy(nextDrugs);
 
-    return Option.some([snapshot, [nextPharmacy, day + 1]]);
+    return Option.some([snapshot, [nextPharmacy, day + 1] as const]);
   };
 
   const log = Array.unfold(seed, step);

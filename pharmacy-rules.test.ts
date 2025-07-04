@@ -1,4 +1,4 @@
-import { Drug } from "./pharmacy";
+import { Drug } from "./pharmacy.js";
 import {
   degradeInBenefit,
   increaseInBenefitForHerbalTea,
@@ -6,7 +6,7 @@ import {
   clampBenefit,
   dayPassed,
   updateDrug,
-} from "./pharmacy-rules";
+} from "./pharmacy-rules.js";
 
 import { describe, it, expect } from "vitest";
 

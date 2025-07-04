@@ -1,16 +1,5 @@
-import { updateDrug } from "./pharmacy-rules";
-
-/**
- * @typedef {('Herbal Tea' | 'Fervex' | 'Magic Pill' | 'Dafalgan' | string)} DrugName
- */
-
-type DrugName = "Herbal Tea" | "Fervex" | "Magic Pill" | "Dafalgan" | string;
-
-export type DrugSnapshot = {
-  name: DrugName;
-  expiresIn: number;
-  benefit: number;
-};
+import { updateDrug } from "./pharmacy-rules.js";
+import type { DrugSnapShot, DrugName } from "./Drug.js";
 
 export class Drug {
   name: DrugName;
@@ -23,10 +12,7 @@ export class Drug {
     this.benefit = benefit;
   }
 
-  /**
-   * @returns {DrugSnapshot}
-   */
-  toJSON() {
+  toJSON(): DrugSnapShot {
     return {
       name: this.name,
       expiresIn: this.expiresIn,
@@ -42,9 +28,6 @@ export class Pharmacy {
     this.drugs = drugs;
   }
 
-  /**
-   * @returns {Drug[]}
-   */
   updateBenefitValue() {
     this.drugs = this.drugs.map(updateDrug);
     return this.drugs;

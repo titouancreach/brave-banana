@@ -1,4 +1,4 @@
-import { Drug } from "./pharmacy";
+import { Drug } from "./pharmacy.js";
 import { flow, identity } from "effect";
 
 export function degradeInBenefit(drug: Drug) {

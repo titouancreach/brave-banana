@@ -1,5 +1,6 @@
 import fs from "fs";
-import { getInitialPharmacyState, runSimulation } from "./simulation";
+import { getInitialPharmacyState, runSimulation } from "./simulation.js";
+import { describe, it, expect } from "vitest";
 
 describe("output.json regression", () => {
   it("should match the committed output.json exactly", () => {
