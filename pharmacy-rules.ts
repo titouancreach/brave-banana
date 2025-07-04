@@ -1,6 +1,8 @@
 import { Drug } from "./pharmacy.js";
 import { flow, identity } from "effect";
 
+import { Match } from "effect";
+
 export function degradeInBenefit(drug: Drug) {
   return new Drug(
     drug.name,
@@ -69,23 +71,12 @@ const updateDafalgan = flow(
   dayPassed,
 );
 
-/**
- * Update the drug by its type.
- *
- * @param {Drug} drug
- * @returns {Drug}
- */
 export function updateDrug(drug: Drug) {
-  switch (drug.name) {
-    case "Herbal Tea":
-      return updateHerbalTea(drug);
-    case "Fervex":
-      return updateFervex(drug);
-    case "Magic Pill":
-      return updateMagicPill(drug);
-    case "Dafalgan":
-      return updateDafalgan(drug);
-    default:
-      return updateOtherDrug(drug);
-  }
+  return Match.value(drug.name).pipe(
+    Match.when("Herbal Tea", () => updateHerbalTea(drug)),
+    Match.when("Fervex", () => updateFervex(drug)),
+    Match.when("Magic Pill", () => updateMagicPill(drug)),
+    Match.when("Dafalgan", () => updateDafalgan(drug)),
+    Match.orElse(() => updateOtherDrug(drug)),
+  );
 }
