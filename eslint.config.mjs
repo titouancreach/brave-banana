@@ -4,6 +4,8 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import js from "@eslint/js";
 import { FlatCompat } from "@eslint/eslintrc";
+import typescriptEslintParser from "@typescript-eslint/parser";
+import typescriptEslintPlugin from "@typescript-eslint/eslint-plugin";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -23,6 +25,26 @@ export default [
       },
 
       parser: babelParser,
+    },
+  },
+  // TypeScript support
+  {
+    files: ["**/*.ts", "**/*.tsx"],
+    languageOptions: {
+      parser: typescriptEslintParser,
+      parserOptions: {
+        project: true,
+        sourceType: "module",
+        ecmaVersion: "latest",
+        ...globals.jest,
+        ...globals.node,
+      },
+    },
+    plugins: {
+      "@typescript-eslint": typescriptEslintPlugin,
+    },
+    rules: {
+      ...typescriptEslintPlugin.configs.recommended.rules,
     },
   },
 ];

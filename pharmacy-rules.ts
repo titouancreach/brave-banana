@@ -1,11 +1,7 @@
 import { Drug } from "./pharmacy";
 import { flow, identity } from "./helpers";
 
-/**
- * @param {Drug} drug
- * @returns {Drug}
- */
-export function degradeInBenefit(drug) {
+export function degradeInBenefit(drug: Drug) {
   return new Drug(
     drug.name,
     drug.expiresIn,
@@ -13,11 +9,7 @@ export function degradeInBenefit(drug) {
   );
 }
 
-/**
- * @param {Drug} drug
- * @returns {Drug}
- */
-export function increaseInBenefitForHerbalTea(drug) {
+export function increaseInBenefitForHerbalTea(drug: Drug) {
   return new Drug(
     drug.name,
     drug.expiresIn,
@@ -25,12 +17,7 @@ export function increaseInBenefitForHerbalTea(drug) {
   );
 }
 
-/**
- *
- * @param {Drug} drug
- * @returns {Drug}
- */
-export function updateBenefitForFervex(drug) {
+export function updateBenefitForFervex(drug: Drug) {
   if (drug.expiresIn <= 0) {
     return new Drug(drug.name, drug.expiresIn, 0);
   }
@@ -46,13 +33,7 @@ export function updateBenefitForFervex(drug) {
   return new Drug(drug.name, drug.expiresIn, drug.benefit + 1);
 }
 
-/**
- * Clamp the benefit between 0 and 50.
- *
- * @param {Drug} drug
- * @returns {Drug}
- */
-export function clampBenefit(drug) {
+export function clampBenefit(drug: Drug) {
   return new Drug(
     drug.name,
     drug.expiresIn,
@@ -60,13 +41,7 @@ export function clampBenefit(drug) {
   );
 }
 
-/**
- * Decrease the expiresIn by 1.
- *
- * @param {Drug} drug
- * @returns {Drug}
- */
-export function dayPassed(drug) {
+export function dayPassed(drug: Drug) {
   return new Drug(drug.name, drug.expiresIn - 1, drug.benefit);
 }
 
@@ -100,7 +75,7 @@ const updateDafalgan = flow(
  * @param {Drug} drug
  * @returns {Drug}
  */
-export function updateDrug(drug) {
+export function updateDrug(drug: Drug) {
   switch (drug.name) {
     case "Herbal Tea":
       return updateHerbalTea(drug);

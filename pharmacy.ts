@@ -4,20 +4,20 @@ import { updateDrug } from "./pharmacy-rules";
  * @typedef {('Herbal Tea' | 'Fervex' | 'Magic Pill' | 'Dafalgan' | string)} DrugName
  */
 
-/**
- * @typedef {Object} DrugSnapshot
- * @property {DrugName} name
- * @property {number} expiresIn
- * @property {number} benefit
- */
+type DrugName = "Herbal Tea" | "Fervex" | "Magic Pill" | "Dafalgan" | string;
+
+export type DrugSnapshot = {
+  name: DrugName;
+  expiresIn: number;
+  benefit: number;
+};
 
 export class Drug {
-  /**
-   * @param {DrugName} name
-   * @param {number} expiresIn
-   * @param {number} benefit
-   */
-  constructor(name, expiresIn, benefit) {
+  name: DrugName;
+  expiresIn: number;
+  benefit: number;
+
+  constructor(name: DrugName, expiresIn: number, benefit: number) {
     this.name = name;
     this.expiresIn = expiresIn;
     this.benefit = benefit;
@@ -36,10 +36,9 @@ export class Drug {
 }
 
 export class Pharmacy {
-  /**
-   * @param {Drug[]} drugs
-   */
-  constructor(drugs = []) {
+  drugs: Drug[];
+
+  constructor(drugs: Drug[] = []) {
     this.drugs = drugs;
   }
 

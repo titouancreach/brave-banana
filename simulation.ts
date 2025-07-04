@@ -1,4 +1,4 @@
-import { Drug, Pharmacy } from "./pharmacy";
+import { Drug, Pharmacy, DrugSnapshot } from "./pharmacy";
 import { unfold } from "./helpers";
 
 export function getInitialPharmacyState() {
@@ -10,27 +10,12 @@ export function getInitialPharmacyState() {
   ]);
 }
 
-/**
- * @typedef {import("./pharmacy").DrugSnapshot} DrugSnapshot
- */
+export function runSimulation(pharmacy: Pharmacy, forDays = 30) {
+  const seed = [new Pharmacy(pharmacy.drugs), 0] as const;
 
-/**
- * @param {number} forDays
- * @param {Pharmacy} pharmacy
- * @returns {DrugSnapshot[][]}
- */
-export function runSimulation(pharmacy, forDays = 30) {
-  /**
-   * @type {[Pharmacy, number]}
-   */
-  // we want to avoid mutating the parameter
-  const seed = [new Pharmacy(pharmacy.drugs), 0];
-
-  /**
-   * @param {[Pharmacy, number]} input
-   * @returns {[DrugSnapshot[], [Pharmacy, number]] | null}
-   */
-  const step = ([pharmacy, day]) => {
+  const step = ([pharmacy, day]: readonly [Pharmacy, number]):
+    | [DrugSnapshot[], [Pharmacy, number]]
+    | null => {
     if (day >= forDays) return null;
 
     const nextDrugs = pharmacy.updateBenefitValue();
