@@ -1,11 +1,9 @@
-import { Drug } from "./pharmacy";
-import { flow, identity } from "./helpers";
+import { Drug } from "./pharmacy.js";
+import { flow, identity } from "effect";
 
-/**
- * @param {Drug} drug
- * @returns {Drug}
- */
-export function degradeInBenefit(drug) {
+import { Match } from "effect";
+
+export function degradeInBenefit(drug: Drug) {
   return new Drug(
     drug.name,
     drug.expiresIn,
@@ -13,11 +11,7 @@ export function degradeInBenefit(drug) {
   );
 }
 
-/**
- * @param {Drug} drug
- * @returns {Drug}
- */
-export function increaseInBenefitForHerbalTea(drug) {
+export function increaseInBenefitForHerbalTea(drug: Drug) {
   return new Drug(
     drug.name,
     drug.expiresIn,
@@ -25,12 +19,7 @@ export function increaseInBenefitForHerbalTea(drug) {
   );
 }
 
-/**
- *
- * @param {Drug} drug
- * @returns {Drug}
- */
-export function updateBenefitForFervex(drug) {
+export function updateBenefitForFervex(drug: Drug) {
   if (drug.expiresIn <= 0) {
     return new Drug(drug.name, drug.expiresIn, 0);
   }
@@ -46,13 +35,7 @@ export function updateBenefitForFervex(drug) {
   return new Drug(drug.name, drug.expiresIn, drug.benefit + 1);
 }
 
-/**
- * Clamp the benefit between 0 and 50.
- *
- * @param {Drug} drug
- * @returns {Drug}
- */
-export function clampBenefit(drug) {
+export function clampBenefit(drug: Drug) {
   return new Drug(
     drug.name,
     drug.expiresIn,
@@ -60,13 +43,7 @@ export function clampBenefit(drug) {
   );
 }
 
-/**
- * Decrease the expiresIn by 1.
- *
- * @param {Drug} drug
- * @returns {Drug}
- */
-export function dayPassed(drug) {
+export function dayPassed(drug: Drug) {
   return new Drug(drug.name, drug.expiresIn - 1, drug.benefit);
 }
 
@@ -94,23 +71,12 @@ const updateDafalgan = flow(
   dayPassed,
 );
 
-/**
- * Update the drug by its type.
- *
- * @param {Drug} drug
- * @returns {Drug}
- */
-export function updateDrug(drug) {
-  switch (drug.name) {
-    case "Herbal Tea":
-      return updateHerbalTea(drug);
-    case "Fervex":
-      return updateFervex(drug);
-    case "Magic Pill":
-      return updateMagicPill(drug);
-    case "Dafalgan":
-      return updateDafalgan(drug);
-    default:
-      return updateOtherDrug(drug);
-  }
+export function updateDrug(drug: Drug) {
+  return Match.value(drug.name).pipe(
+    Match.when("Herbal Tea", () => updateHerbalTea(drug)),
+    Match.when("Fervex", () => updateFervex(drug)),
+    Match.when("Magic Pill", () => updateMagicPill(drug)),
+    Match.when("Dafalgan", () => updateDafalgan(drug)),
+    Match.orElse(() => updateOtherDrug(drug)),
+  );
 }

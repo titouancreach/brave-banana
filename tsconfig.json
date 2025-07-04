@@ -1,9 +1,12 @@
 {
     "compilerOptions": {
+      "target": "ES2022",
+      "module": "NodeNext",
       "checkJs": true,
       "noEmit": true,
       "strict": true,
-      "esModuleInterop": true
+      "esModuleInterop": true,
+      "skipLibCheck": true
     },
-    "include": ["**/*.js"]
+    "include": ["**/*.ts"]
   }
