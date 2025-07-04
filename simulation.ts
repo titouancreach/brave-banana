@@ -16,20 +16,19 @@ type StepState = [Pharmacy, number];
 export function runSimulation(pharmacy: Pharmacy, forDays = 30) {
   const seed: StepState = [new Pharmacy(pharmacy.drugs), 0];
 
-  const step = ([pharmacy, day]: StepState): Option.Option<
-    [DrugSnapShot[], StepState]
-  > => {
-    if (day >= forDays) return Option.none();
+  const log = Array.unfold(
+    seed,
+    ([pharmacy, day]): Option.Option<[DrugSnapShot[], StepState]> => {
+      if (day >= forDays) return Option.none();
 
-    const nextDrugs = pharmacy.updateBenefitValue();
-    const snapshot = nextDrugs.map((d) => d.toJSON());
+      const nextDrugs = pharmacy.updateBenefitValue();
+      const snapshot = nextDrugs.map((d) => d.toJSON());
 
-    const nextPharmacy = new Pharmacy(nextDrugs);
+      const nextPharmacy = new Pharmacy(nextDrugs);
 
-    return Option.some([snapshot, [nextPharmacy, day + 1] as const]);
-  };
-
-  const log = Array.unfold(seed, step);
+      return Option.some([snapshot, [nextPharmacy, day + 1] as const]);
+    },
+  );
 
   return log;
 }

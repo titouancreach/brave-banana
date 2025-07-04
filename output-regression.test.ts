@@ -1,12 +1,24 @@
-import fs from "fs";
 import { getInitialPharmacyState, runSimulation } from "./simulation.js";
-import { describe, it, expect } from "vitest";
+import { describe, expect } from "vitest";
+import { it } from "@effect/vitest";
+import { Effect, Schema as S } from "effect";
+import { FileSystem } from "@effect/platform";
+import { NodeFileSystem } from "@effect/platform-node";
+import { DrugSnaphotsSchema } from "./Drug.js";
 
 describe("output.json regression", () => {
-  it("should match the committed output.json exactly", () => {
-    const expected = JSON.parse(fs.readFileSync("output.json", "utf-8"));
-    const pharmacy = getInitialPharmacyState();
-    const actual = runSimulation(pharmacy, 30);
-    expect({ result: actual }).toEqual(expected);
-  });
+  it.effect("should match the committed output.json exactly", () =>
+    Effect.gen(function* () {
+      const fs = yield* FileSystem.FileSystem;
+
+      const expected = yield* fs.readFileString("output.json");
+      const pharmacy = getInitialPharmacyState();
+      const logs = runSimulation(pharmacy, 30);
+      const encodedLog = yield* S.encode(DrugSnaphotsSchema)({ result: logs });
+
+      const encodedLogWithExtraNewline = `${encodedLog}\n`;
+
+      expect(encodedLogWithExtraNewline).toEqual(expected);
+    }).pipe(Effect.provide(NodeFileSystem.layer)),
+  );
 });
